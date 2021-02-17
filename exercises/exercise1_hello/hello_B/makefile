@@ -8,14 +8,14 @@ out.txt : hello
 	@./hello > $@
 
 hello : hello.o
-	@$(CC) -o $@ $< 
+	@$(CC) -o $@ $^ 
 
 hello.o : hello.c
-	@$(CC) $(CFLAGS) -c $^
+	@$(CC) -c $^
 
 
 
 .PHONEY : clean
 
 clean : 
-	@$(RM) *.txt hello *.o
+	@rm *.txt hello *.o
