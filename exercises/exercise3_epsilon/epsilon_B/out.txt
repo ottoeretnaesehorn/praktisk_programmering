@@ -1,0 +1,7 @@
+The sum from above = 2.83716e+29 (Using floats)
+The sum from below = 15.4037 (using floats)
+The sum from above = 21.3716 (Using doubles)
+The sum from below = 2.35499e+07 (Using doubles)
+
+The series doesn't converge mathematically
+The result is due to finite precision
