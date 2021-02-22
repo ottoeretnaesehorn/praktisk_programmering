@@ -5,8 +5,8 @@ int main()
 {
 	printf("Testing equal.h:\n");
 
-	double tau = 1.0e-10; 
-	double epsilon = 1.0e-10;
+	double tau = 1.0e-6; 
+	double epsilon = 1.0e-6;
 
 	if (equal(1, 2, tau, epsilon) == 1)
 	{
