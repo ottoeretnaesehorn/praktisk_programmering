@@ -1,0 +1,28 @@
+set term svg background rgb "white"
+set out "complex_gamma.svg"
+set view ,310
+
+set xlabel "re(z)"
+set ylabel "im(z)"
+set zlabel "|gamma(z)|"
+
+set hidden3d
+set pm3d
+set grid
+set dgrid3d
+
+set xrange[-5:5]
+set yrange[-5:5]
+
+set contour both 
+set cntrlabel onecolor
+
+max = 10 
+
+set cntrparam levels incremental 0.0,0.25,max
+set palette rgb 33,13,10
+
+cut(z) = z > max ? max:z
+
+splot [][][:max] "complex_gamma_data.txt" using 1:2:(cut($3)) with lines notitle
+
