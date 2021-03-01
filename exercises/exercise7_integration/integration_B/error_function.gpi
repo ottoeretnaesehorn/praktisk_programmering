@@ -1,0 +1,20 @@
+set term svg background rgb "white"
+set out "error_function.svg"
+
+set xlabel "x"
+set ylabel "erf(x)"
+
+set key on bottom right
+set grid lc rgb "black" lt 1
+
+
+set mxtics 4
+set xrange[-3:3]
+
+set ytics -1,0.25,1
+set mytics 2
+set yrange[-1.125:1.125]
+
+plot "data.txt" using 1:2 with lines lc rgb "red" notitle
+
+
