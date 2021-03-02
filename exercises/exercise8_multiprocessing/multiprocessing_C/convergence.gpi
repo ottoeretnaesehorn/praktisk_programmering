@@ -1,0 +1,9 @@
+set term svg background rgb "white"
+set out "convergence.svg"
+
+set xlabel "N"
+set ylabel "Error(N)"
+
+set key 
+
+plot "out.txt" using 1:2 with points ls 1 lc rgb "red" notitle
