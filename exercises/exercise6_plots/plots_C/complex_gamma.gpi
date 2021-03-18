@@ -4,25 +4,19 @@ set view ,310
 
 set xlabel "re(z)"
 set ylabel "im(z)"
-set zlabel "|gamma(z)|"
+
+set xrange[-4:4]
+set yrange[-4:4]
+set zrange[0:6]
 
 set hidden3d
 set pm3d
-set grid
-set dgrid3d
-
-set xrange[-5:5]
-set yrange[-5:5]
-
-set contour both 
+set contour both
 set cntrlabel onecolor
+set cntrparam levels incremental 0.0,0.25,6 
 
-max = 10 
-
-set cntrparam levels incremental 0.0,0.25,max
+set lt 1 lc rgb "black"
 set palette rgb 33,13,10
 
-cut(z) = z > max ? max:z
-
-splot [][][:max] "complex_gamma_data.txt" using 1:2:(cut($3)) with lines notitle
+splot [][][] "complex_gamma_data.txt" using 1:2:3 with lines notitle
 
