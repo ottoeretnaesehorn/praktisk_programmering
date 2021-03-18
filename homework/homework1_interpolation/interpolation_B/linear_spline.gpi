@@ -1,0 +1,9 @@
+set term svg background rgb "white"
+set out "linear_spline.svg"
+
+set xlabel "x"
+set ylabel "y"
+
+plot "points.txt" using 1:2 with points lt 7 lc rgb "red" title "Random points",\
+"spline.txt" using 1:2 with lines lc rgb "black" title "Linear spline", \
+"" using 1:3 with lines dt 3 lc rgb "blue" title "Rutine from gsl"
