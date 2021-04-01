@@ -1,0 +1,11 @@
+set term svg background rgb "white"
+set out "spline.svg"
+
+set xlabel "x"
+set ylabel "y"
+
+set key out
+
+plot "points.txt" using 1:2 with points lt 7 lc rgb "red" title "Random points",\
+"spline_data.txt" using 1:2 with lines lc rgb "black" title "Cubic spline",\
+"spline_data.txt" using 1:3 with lines dt 3 lt 2 lc rgb "blue" title "From gsl"

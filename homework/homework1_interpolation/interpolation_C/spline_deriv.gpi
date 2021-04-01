@@ -1,0 +1,10 @@
+set term svg background rgb "white"
+set out "spline_deriv.svg"
+
+set xlabel "x"
+set ylabel "y"
+
+set key out
+
+plot "spline_data.txt" using 1:6 with lines lc rgb "black" title "Cubic spline derivative",\
+"" using 1:7 with lines lt 2 lc rgb "blue" title "From gsl"

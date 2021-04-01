@@ -1,6 +1,6 @@
 #include <stdio.h> 
 #include <stdlib.h>
-#include "quadratic_spline.h"
+#include "cubic_spline.h"
 #include <gsl/gsl_interp.h>
 
 void create_and_print_points (int n, double x[], double y[]) 
@@ -25,21 +25,28 @@ void create_and_print_spline (int n, double x[], double y[])
 {
 	FILE * spline_data = fopen ("./spline_data.txt", "w");
 
-	quadratic_spline * spline = quadratic_spline_alloc (n, x, y);
+	cubic_spline * spline = cubic_spline_alloc (n, x, y);
+	
+	gsl_interp * gsl_spline = gsl_interp_alloc (gsl_interp_cspline, n);
+	gsl_interp_init (gsl_spline, x, y, n);
 
 	double inc = 1./16;
 
 	for (double z = x[0]; z <= x[n - 1]; z += inc)
 	{
 		fprintf (spline_data, 
-				"%10g %10g %10g %10g \n", 
+				"%10g %10g %10g %10g %10g %10g %10g\n", 
 				z, 
-				quadratic_spline_eval (spline, z), 
-				quadratic_spline_integ (spline, z),
-				quadratic_spline_deriv (spline, z));
+				cubic_spline_eval (spline, z),
+				gsl_interp_eval (gsl_spline, x, y, z, NULL),
+				cubic_spline_integ (spline, z),
+				gsl_interp_eval_integ (gsl_spline, x, y, x[0], z, NULL), 
+				cubic_spline_deriv (spline, z),
+				gsl_interp_eval_deriv (gsl_spline, x, y, z, NULL)); 
 	}
 
-	quadratic_spline_free (spline);
+	cubic_spline_free (spline);
+	gsl_interp_free (gsl_spline);
 	fclose (spline_data); 
 }
 
