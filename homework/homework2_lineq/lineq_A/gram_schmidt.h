@@ -1,4 +1,5 @@
 #include <math.h>
+#include <assert.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_blas.h>
@@ -6,6 +7,8 @@
 
 void GS_decomposition (gsl_matrix * A, gsl_matrix * R)
 {
+	assert (A->size2 == R->size1 && R->size1 == R->size2); 
+
 	int n = A->size1;
 	int m = A->size2;
 
@@ -31,7 +34,8 @@ void GS_decomposition (gsl_matrix * A, gsl_matrix * R)
 			gsl_vector_sub (aj, ai);
 
 			gsl_matrix_set_col (A, j, aj);
-			gsl_matrix_set (R, i, j, aiaj); 
+			gsl_matrix_set (R, i, j, aiaj);
+		    	gsl_matrix_set (R, j, i, 0);	
 		}	
 	}
 
@@ -42,7 +46,7 @@ void GS_decomposition (gsl_matrix * A, gsl_matrix * R)
 
 void GS_solve (gsl_matrix * Q, gsl_matrix * R, gsl_vector * b, gsl_vector * x)
 {
-	gsl_blas_dgemv (CblasTrans, 1, Q, b, 0, x);
+	gsl_blas_dgemv (CblasTrans, 1.0, Q, b, 0.0, x);
      	back_substitution (R, x);	
 
 }
