@@ -4,7 +4,8 @@
 
 int is_matrix_symmetric (gsl_matrix * A)
 {
-	gsl_matrix AT = gsl_matrix_transpose_memcpy (AT, A);
+	gsl_matrix * AT = gsl_matrix_alloc (A->size1, A->size2);
+	gsl_matrix_transpose_memcpy (AT, A);
 
 	if (gsl_matrix_equal (A, AT) == 1)
 	{
@@ -51,7 +52,7 @@ void jacobi_diagonalisation (gsl_matrix * A, gsl_matrix * V)
 	if (is_matrix_symmetric (A) == 0)
 	{
 		fprintf (stderr, "Cannot diagonalise non-symmetric matrix\n");
-		break;
+		abort();
 	}
 
 	int n = A->size1; 
@@ -64,10 +65,10 @@ void jacobi_diagonalisation (gsl_matrix * A, gsl_matrix * V)
 
 	double new_App;
 	double new_Aqq;
+	
+	int change = 1; 
 
-	int change; 
-
-	do 
+	while (change != 0)
 	{
 		change = 0; 
 
@@ -93,13 +94,11 @@ void jacobi_diagonalisation (gsl_matrix * A, gsl_matrix * V)
 					change = 1; 
 					
 					apply_jacobi_right (A, p, q, theta); 
-					apply_jacobi_left (A, p, q, theta);
+					apply_jacobi_left (A, p, q, -theta);
 					
 					apply_jacobi_right (V, p, q, theta);
 				}	
 			}
-		}	
+		}
 	}
-	while (change != 0);
-
-}
+}	

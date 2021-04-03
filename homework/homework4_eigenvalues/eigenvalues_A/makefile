@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -O -std=gnu11 $(shell gsl-config --cflags)
 LDLIBS = -lm $(shell gsl-config --libs)
-HEADERS = jacobi.h
+HEADERS = jacobi.h printing.h
 
 default : test 
 	@./$<
