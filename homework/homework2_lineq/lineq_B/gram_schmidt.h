@@ -52,3 +52,27 @@ void GS_solve (gsl_matrix * Q, gsl_matrix * R, gsl_vector * b, gsl_vector * x)
      	back_substitution (R, x);	
 
 }
+
+void GS_inverse (gsl_matrix * Q, gsl_matrix * R, gsl_matrix * B)
+{
+	int n = Q->size1;
+
+	gsl_matrix * Id = gsl_matrix_alloc (n, n); 
+	gsl_matrix_set_identity (Id);
+
+	gsl_vector * e = gsl_vector_alloc (n); 
+	gsl_vector * x = gsl_vector_alloc (n);
+
+	for (int i = 0; i < n; i++)
+	{
+		gsl_matrix_get_col (e, Id, i); 
+
+		GS_solve (Q, R, e, x); 
+
+		gsl_matrix_set_col (B, i, x);
+	}
+
+	gsl_matrix_free (Id); 
+	gsl_vector_free (e);
+	gsl_vector_free (x);
+}

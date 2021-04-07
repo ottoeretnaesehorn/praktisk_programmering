@@ -19,12 +19,7 @@ void create_matrix_and_vector (int n, int m, gsl_matrix * A, gsl_vector * b)
 int main ()
 {
 	int n = rand()%5 + 1; 
-	int m = rand()%5 + 1; 
-
-	if (n < m || n == m)
-	{
-		n = m + 1; 
-	}
+	int m = n; 
 
 	gsl_matrix * A = gsl_matrix_alloc (n, m);
 	gsl_matrix * Q = gsl_matrix_alloc (n, m);
@@ -36,40 +31,33 @@ int main ()
 	gsl_vector * x = gsl_vector_alloc (m); 
 	gsl_vector * Ax = gsl_vector_alloc (n);
 
-	gsl_matrix * Id = gsl_matrix_alloc (m, m);
-	gsl_matrix_set_identity (Id); 
-
 	create_matrix_and_vector (n, m, A, b);
 	gsl_matrix_memcpy (Q, A);
 
-	FILE * out = fopen ("./out.txt", "w");
-
-	fprintf (out, "Linear equation Ax=b, with: \n");
-	print_matrix (out, "A = ", A);
-	print_vector (out, "b = ", b);
+	printf ("Linear equation Ax=b, with: \n");
+	print_matrix ("A = ", A);
+	print_vector ("b = ", b);
 
 	GS_decomposition (Q, R);
 
-	fprintf (out, "\nAfter Gram-Schmidt QR-decomposition: \n");
-	print_matrix (out, "Q = ", Q);
-	print_matrix (out, "R = ", R);
+	printf ("\nAfter Gram-Schmidt QR-decomposition: \n");
+	print_matrix ("Q = ", Q);
+	print_matrix ("R = ", R);
 	
-	fprintf (out, "\nTesting properties of decomposition: \n");
+	printf ("\nTesting properties of decomposition: \n");
 
-	gsl_blas_dgemm (CblasTrans, CblasNoTrans, 1, Q, Q, 0, QTQ);
-	print_matrix (out, "QTQ = ", QTQ);
+	gsl_blas_dgemm (CblasTrans, CblasNoTrans, 1.0, Q, Q, 0.0, QTQ);
+	print_matrix ("QTQ = ", QTQ);
 
-	gsl_blas_dgemm (CblasNoTrans, CblasNoTrans, 1, Q, R, 0, QR);
-	print_matrix (out, "QR = ", QR);
+	gsl_blas_dgemm (CblasNoTrans, CblasNoTrans, 1.0, Q, R, 0.0, QR);
+	print_matrix ("QR = ", QR);
 
 	GS_solve (Q, R, b, x); 
 	gsl_blas_dgemv (CblasNoTrans, 1, A, x, 0, Ax);
 
-	fprintf (out, "\nTesting properties of solve: \n");
-	print_vector (out, "x = ", x);
-	print_vector (out, "Ax = ", Ax);
-
-	fclose (out);
+	printf ("\nTesting properties of solve: \n");
+	print_vector ("x = ", x);
+	print_vector ("Ax = ", Ax);
 
 	gsl_matrix_free (A);
 	gsl_matrix_free (Q);
@@ -80,8 +68,6 @@ int main ()
 	gsl_vector_free (b);
 	gsl_vector_free (x);
 	gsl_vector_free (Ax);
-
-	gsl_matrix_free (Id);
 
 	return 0;
 }
