@@ -1,0 +1,8 @@
+set term svg background rgb "white"
+set out "plot.svg"
+
+set xlabel ("Time [days]")
+set ylabel ("Activity")
+
+plot "data.txt" with errorbars lc rgb "black" title "Experimental data",\
+"plot.txt" with lines lc "black" title "Fit "
