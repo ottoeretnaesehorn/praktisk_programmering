@@ -2,9 +2,9 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
 
-void print_matrix (FILE * out, char str[], gsl_matrix * A)
+void print_matrix (char str[], gsl_matrix * A)
 {
-        fprintf (out, "%s(", str);
+        printf ("%s(", str);
 
         for (int i = 0; i < A->size1; i++)
         {
@@ -14,34 +14,34 @@ void print_matrix (FILE * out, char str[], gsl_matrix * A)
                         {
                                 if (i == A->size1 - 1)
                                 {
-                                        fprintf (out, "%f) \n", gsl_matrix_get (A, i, j));
+                                        printf ("%f) \n", gsl_matrix_get (A, i, j));
                                 }
                                 else
                                 {
-                                        fprintf (out, "%f; \n", gsl_matrix_get (A, i, j));
+                                        printf ("%f; \n", gsl_matrix_get (A, i, j));
                                 }
                         }
                         else
                         {
-                                fprintf (out, "%f, ", gsl_matrix_get (A, i, j));
+                                printf ("%f, ", gsl_matrix_get (A, i, j));
                         }
                 }
         }
 }
 
-void print_vector (FILE * out, char str[], gsl_vector * x)
+void print_vector (char str[], gsl_vector * x)
 {
-	fprintf (out, "%s(", str);
+	printf ("%s(", str);
 
 	for (int i = 0; i < x->size; i++)
 	{
 		if (i == x->size - 1)
 		{
-			fprintf (out, "%f) \n", gsl_vector_get (x, i));
+			printf ("%f) \n", gsl_vector_get (x, i));
 		}
 		else 
 		{
-			fprintf (out, "%f, ", gsl_vector_get (x, i));
+			printf ("%f, ", gsl_vector_get (x, i));
 		}
 	}
 }

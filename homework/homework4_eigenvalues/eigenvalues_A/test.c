@@ -24,43 +24,48 @@ int main ()
 	gsl_matrix * A = gsl_matrix_alloc (n, n); 
 	create_symmetric_matrix (A, n);
 
+	gsl_matrix * D = gsl_matrix_alloc (n, n); 
+	gsl_matrix_memcpy (D, A);
+
 	gsl_matrix * V = gsl_matrix_alloc (n, n);
 	gsl_matrix_set_identity (V);
 
-	gsl_matrix * Id = gsl_matrix_alloc (n, n);
-	gsl_matrix_set_identity (Id);
-
 	printf ("Randomly generated matrix: \n");
-	print_matrix (stdout, "A = ", A);
+	print_matrix ("A = ", A);
 
-	jacobi_diagonalisation (A, V);
+	jacobi_diagonalisation (D, V);
 	
 	printf ("\nAfter diagonalisation: \n");
-	print_matrix (stdout, "D = ", A);
-	print_matrix (stdout, "V = ", V);
+	print_matrix ("D = ", D);
+	print_matrix ("V = ", V);
 
-	gsl_matrix * VTAV = gsl_matrix_alloc (n, n);
-	gsl_matrix * VDVT = gsl_matrix_alloc (n, n);
-	gsl_matrix * VTV = gsl_matrix_alloc (n, n);
-	
 	printf ("\nTesting properties: \n");
 
+	gsl_matrix * VTV = gsl_matrix_alloc (n, n);
 	gsl_blas_dgemm (CblasTrans, CblasNoTrans, 1, V, V, 0, VTV);
-	print_matrix (stdout, "V^T*V = ", VTV);
+	print_matrix ("VTV = ", VTV);
 
-	gsl_blas_dgemm (CblasNoTrans, CblasNoTrans, 1, V, A, 0, VDVT);
-	gsl_blas_dgemm (CblasNoTrans, CblasTrans, 1, A, V, 0, VDVT);
-	print_matrix (stdout, "V*D*V^T = ", VDVT);
+	gsl_matrix * VTA = gsl_matrix_alloc (n, n); 
+	gsl_matrix * VTAV = gsl_matrix_alloc (n, n);
+	gsl_blas_dgemm (CblasTrans, CblasNoTrans, 1, V, A, 0, VTA); 
+	gsl_blas_dgemm (CblasNoTrans, CblasNoTrans, 1, VTA, V, 0, VTAV); 
+       	print_matrix ("VTAV = ", VTAV);	
 
-
-
-
+	gsl_matrix * VD = gsl_matrix_alloc (n, n);
+	gsl_matrix * VDVT = gsl_matrix_alloc (n, n); 
+	gsl_blas_dgemm (CblasNoTrans, CblasNoTrans, 1, V, D, 0, VD); 
+	gsl_blas_dgemm (CblasNoTrans, CblasTrans, 1, VD, V, 0, VDVT);
+      	print_matrix ("VDVT = ", VDVT); 	
 
 	gsl_matrix_free (A);
+	gsl_matrix_free (D);
 	gsl_matrix_free (V);
-	gsl_matrix_free (VTAV);
-	gsl_matrix_free (VDVT);
+
 	gsl_matrix_free (VTV);
+	gsl_matrix_free (VTA);
+	gsl_matrix_free (VTAV);
+	gsl_matrix_free (VD);
+	gsl_matrix_free (VDVT);
 
 	return 0;
 }
