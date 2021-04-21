@@ -1,0 +1,5 @@
+set term svg background rgb "white"
+set out "plot.svg"
+
+set key out
+
