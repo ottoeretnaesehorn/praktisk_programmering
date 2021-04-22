@@ -65,8 +65,8 @@ void ode_driver (
 				h = b - t;
 			}
 
-			double steps[n], dy[n];
-			runge_kutta_23 (n, t, y, f, h, steps, dy);
+			double step[n], dy[n];
+			runge_kutta_23 (n, t, y, f, h, step, dy);
 
 			double sum = 0; 
 			FORALL(i) sum += y[i]*y[i];
@@ -82,12 +82,12 @@ void ode_driver (
 			if (err < tol)
 			{
 				t = t + h; 
-				FORALL(i) y[i] = steps[i];
+				FORALL(i) y[i] = step[i];
 				
 				print_path (path, n, t, y);
 			}
 
-			if (err > 0)
+			if (err > 0.)
 			{
 				h *= 0.95*pow(tol/err, 0.25); 
 			}
