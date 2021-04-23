@@ -10,7 +10,7 @@ void create_and_print_points (int n, double x[], double y[])
 	for (int i = 0; i < n; i++)
 	{
 		x[i] = i + 1.0; 
-		y[i] = (double) 10*rand()/RAND_MAX; 
+		y[i] = i + 1.0; 
 
 		fprintf (points, 
 				"%10g %10g \n", 
@@ -35,7 +35,7 @@ void create_and_print_spline (int n, double x[], double y[])
 	for (double z = x[0]; z <= x[n - 1]; z += inc)
 	{
 		fprintf (spline_data, 
-				"%10g %10g %10g %10g %10g %10g %10g\n", 
+				"%10g %10g %10g %10g %10g %10g %10g \n",
 				z, 
 				cubic_spline_eval (spline, z),
 				gsl_interp_eval (gsl_spline, x, y, z, NULL),

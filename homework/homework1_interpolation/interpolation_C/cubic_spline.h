@@ -10,9 +10,9 @@ typedef struct
 	double * x; 
 	double * y; 
 	
-	double * coefficient_b; 
-	double * coefficient_c;
-	double * coefficient_d;	
+	double * b; 
+	double * c;
+	double * d;	
 } 
 cubic_spline;
 
@@ -31,80 +31,91 @@ cubic_spline * cubic_spline_alloc (int n, double x[], double y[])
 		spline->y[i] = y[i];
 	}
 
-	double dx[n - 1];
-	double dydx[n - 1];
+	double h[n - 1];
+	double p[n - 1];
 
 	for (int i = 0; i < n - 1; i++)
 	{
-		dx[i] = x[i + 1] - x[i];
-		assert (dx[i] > 0);
+		h[i] = x[i + 1] - x[i];
+		assert (h[i] > 0);
 	
-		dydx[i] = (y[i + 1] - y[i])/dx[i]; 
+		p[i] = (y[i + 1] - y[i])/h[i]; 
 	}
 
-	double tridiagonal_main[n];
-	double tridiagonal_above_main[n - 1];
-	double tridiagonal_right_hand[n];
+	double D[n];
+	double Q[n - 1];
+	double B[n];
 
-	tridiagonal_main[0] = 2; 
-	tridiagonal_main[n - 1] = 2; 
+	D[0] = 2; D[n - 1] = 2; 
 
 	for (int i = 0; i < n - 2; i++)
 	{
-		tridiagonal_main[i + 1] = 2.*dx[i]/dx[i + 1] + 2.;
+		D[i + 1] = 2.*h[i]/h[i + 1] + 2.;
 	}
 
-	tridiagonal_above_main[0] = 1; 
+	Q[0] = 1; 
 
 	for (int i = 0; i < n - 2; i++)
 	{
-		tridiagonal_above_main[i + 1] = dx[i]/dx[i + 1]; 
+		Q[i + 1] = h[i]/h[i + 1]; 
 	}
 
-	tridiagonal_right_hand[0] = 3*dydx[0]; 
-	tridiagonal_right_hand[n - 1] = 3*dydx[n - 2];
+	B[0] = 3*p[0]; B[n - 1] = 3*p[n - 2];
 
 	for (int i = 1; i < n; i++)
 	{
-		tridiagonal_main[i] -= tridiagonal_above_main[i - 1]/tridiagonal_main[i - 1];
-		tridiagonal_right_hand[i] -= tridiagonal_right_hand[i - 1]/tridiagonal_main[i - 1];
+		D[i] -= Q[i - 1]/D[i - 1];
+		B[i] -= B[i - 1]/D[i - 1];
 	}
 	
-	spline->coefficient_b = (double *) malloc (n*sizeof (double));
-	spline->coefficient_c = (double *) malloc ((n - 1)*sizeof (double));
-	spline->coefficient_d = (double *) malloc ((n - 1)*sizeof (double));
+	spline->b = (double *) malloc (n*sizeof (double));
+	spline->c = (double *) malloc ((n - 1)*sizeof (double));
+	spline->d = (double *) malloc ((n - 1)*sizeof (double));
 
-	spline->coefficient_b[n - 1] = tridiagonal_right_hand[n - 1]/tridiagonal_main[n - 1];
+	spline->b[n - 1] = B[n - 1]/D[n - 1];
 
 	for (int i = n - 2; i >= 0; i--)
 	{
-		spline->coefficient_b[i] = (tridiagonal_right_hand[i] 
-				- tridiagonal_above_main[i]*spline->coefficient_b[i + 1])/tridiagonal_main[i];
+		spline->b[i] = (B[i] - Q[i]*spline->b[i + 1])/D[i];
 	}
 
 	for (int i = 0; i < n - 1; i++)
 	{
-		spline->coefficient_c[i] = (-2*spline->coefficient_b[i]
-				- spline->coefficient_b[i + 1]
-				+ 3*dydx[i])/dx[i];
-		spline->coefficient_d[i] = (spline->coefficient_b[i] 
-				+ spline->coefficient_b[i + 1] 
-				- 2*dydx[i])/dx[i]/dx[i];
+		spline->c[i] = (-2*spline->b[i] - spline->b[i + 1] + 3*p[i])/h[i];
+		spline->d[i] = (spline->b[i] + spline->b[i + 1]	- 2*p[i])/h[i]/h[i];
 	}
 
 	return spline; 
 }
 
+int check_and_search (cubic_spline * spline, double z)
+{
+	assert (z >= spline->x[0] && z <= spline->x[spline->n - 1]);
+	
+	int i = 0, j = spline->n - 1;
+
+	while (j - i > 1)
+	{
+		int m = (i + j)/2;
+
+		if (z > spline->x[m])
+		{
+			i = m;
+		}
+		else
+		{
+			j = m;
+		}
+	}
+	return 0;
+}
+
 double cubic_spline_eval (cubic_spline * spline, double z)
 {
-	value_check (spline->n, spline->x, z); 
+	int i = check_and_search (spline, z);
+	double h = z - spline->x[i];
 
-	int i = binary_search (spline->n, spline-> x, spline->y, z);
-	
-	return spline->y[i] 
-		+ (z - spline->x[i])*(spline->coefficient_b[i] 
-				+ (z - spline->x[i])*(spline->coefficient_c[i]
-				+ (z - spline->x[i])*spline->coefficient_d[i]));
+	return spline->y[i] + h*(spline->b[i] + h*(spline->c[i] + h*spline->d[i]));
 }
 
 double cubic_spline_integ (cubic_spline * spline, double z)
@@ -116,9 +127,9 @@ double cubic_spline_integ (cubic_spline * spline, double z)
 	double anti_derivative (cubic_spline * spline, int i, double z)
 	{
         	return (z - spline->x[i])*(spline->y[i] 
-				+ (z - spline->x[i])*(spline->coefficient_b[i]/2 
-					+ (z - spline->x[i])*(spline->coefficient_c[i]/3
-						+ (z - spline->x[i])*spline->coefficient_d[i]/4)));
+				+ (z - spline->x[i])*(spline->b[i]/2 
+					+ (z - spline->x[i])*(spline->c[i]/3
+						+ (z - spline->x[i])*spline->d[i]/4)));
 	}
 
 	double integral = anti_derivative (spline, i, z); 
@@ -139,9 +150,9 @@ double cubic_spline_deriv (cubic_spline * spline, double z)
 
 	int i = binary_search (spline->n, spline->x, spline->y, z);
 
-	return spline->coefficient_b[i] + 
-		(z - spline->x[i])*(2.*spline->coefficient_c[i]
-		+ (z - spline->x[i])*3.*spline->coefficient_d[i]);
+	return spline->b[i] + 
+		(z - spline->x[i])*(2.*spline->c[i]
+		+ (z - spline->x[i])*3.*spline->d[i]);
 }
 
 void cubic_spline_free (cubic_spline * spline)
@@ -149,9 +160,9 @@ void cubic_spline_free (cubic_spline * spline)
 	free (spline->x);
 	free (spline->y);
 
-	free (spline->coefficient_b);
-	free (spline->coefficient_c);
-	free (spline->coefficient_d);
+	free (spline->b);
+	free (spline->c);
+	free (spline->d);
 
 	free (spline);
 }

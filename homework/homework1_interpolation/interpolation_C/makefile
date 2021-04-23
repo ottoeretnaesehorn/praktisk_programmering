@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -O -Wall -Werror -std=gnu11 $(shell gsl-config --cflags)
+CFLAGS = -O -Wall -std=gnu11 $(shell gsl-config --cflags)
 LDLIBS = -lm $(shell gsl-config --libs)
 HEADERS = cubic_spline.h binary_search.h value_check.h
 
