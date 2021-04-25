@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_blas.h>
@@ -40,27 +39,36 @@ int main ()
 
 	jacobi_diagonalisation (eigenvalues, eigenvectors); 
 
-	printf ("Eigenvalue \t Exact \t \t Calculated \t Difference \n");
-	
+	FILE * out = fopen ("out.txt", "w"); 
+
+	fprintf (out, "n \t Exact \t \t Calculated \t Difference \n");
+
 	for (int i = 0; i < n; i++)
 	{
 		double exact = M_PI*M_PI*(i + 1)*(i + 1); 
 	       	double calculated = gsl_matrix_get (eigenvalues, i, i);
 
-		printf ("%i \t \t %10g \t %10g \t %10g \n", i, exact, calculated, fabs(exact - calculated)); 	
+		fprintf (out, "%i \t %10g \t %10g \t %10g \n", i, exact, calculated, fabs(exact - calculated)); 	
 	}
 
-	printf ("\n \n");
-	printf ("Eigenvectors: \n");
-	printf ("Exact \t Calculated \n");
+	fclose (out); 
 
-	for (int i = 0; i < 3; i++)
+	FILE * data = fopen ("data.txt", "w");
+
+	fprintf (data, "%g %g %g %g\n", 0., 0., 0., 0.); 
+
+	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; i < n; i ++)
-		{
-			printf ("%g \t %g \n", (i + 1.0)/(n + 1), gsl_matrix_get (eigenvectors, j, i));
-		}
+		fprintf (data, "%g %g %g %g \n", 
+				(i + 1.0)/(n + 1), 
+				gsl_matrix_get (eigenvectors, i, 0), 
+				gsl_matrix_get (eigenvectors, i, 1), 
+				gsl_matrix_get (eigenvectors, i, 2));
 	}
+
+	fprintf (data, "%g %g %g %g\n", 1., 0., 0., 0.); 
+
+	fclose (data); 
 
 	return 0;
 }

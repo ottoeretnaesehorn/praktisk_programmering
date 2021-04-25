@@ -1,0 +1,9 @@
+set term svg background rgb "white"
+set out "eigenvectors.svg"
+
+set title "Eigenvectors"
+set key out
+
+plot "data.txt" using 1:2 with lines lc rgb "black" title "n = 0",\
+"" using 1:3 with lines lc rgb "blue" title "n = 1",\
+"" using 1:4 with lines lc rgb "red" title "n = 2"
