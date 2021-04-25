@@ -1,31 +1,36 @@
 CC = gcc
 CFLAGS = -O -Wall -std=gnu11 $(shell gsl-config --cflags)
 LDLIBS = -lm $(shell gsl-config --libs)
-HEADERS = cubic_spline.h binary_search.h value_check.h
+OBJFILES = main.o cubic_spline.o
+
+
 
 default : spline.svg spline_integ.svg spline_deriv.svg
 
 spline_deriv.svg : spline_deriv.gpi spline_data.txt
-	@gnuplot $<
+	gnuplot $<
 
 spline_integ.svg : spline_integ.gpi spline_data.txt
-	@gnuplot $<
+	gnuplot $<
 
 spline.svg : spline.gpi spline_data.txt points.txt
-	@gnuplot $<
+	gnuplot $<
 
 spline_data.txt points.txt : test 
 	@./$<
 
-test : test.o 
-	@$(CC) $< -o $@ $(LDLIBS) $(HEADERS)
+test : $(OBJFILES)
+	$(CC) $(CFLAGS) -o $@ $(OBJFILES) $(LDLIBS)
 
-test.o : test.c
-	@$(CC) $(CFLAGS) $< -c
+cubic_spline.o : cubic_spline.c
+	$(CC) $(CFLAGS) -c $<
+
+main.o : main.c
+	$(CC) $(CFLAGS) -c $<
 
 
 
 .PHONEY : clean 
 
 clean : 
-	@$(RM) *.svg *.txt test *.o 
+	@$(RM) *.svg *.txt main *.o 
