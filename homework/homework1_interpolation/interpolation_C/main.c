@@ -10,8 +10,7 @@ void create_and_print_points (int n, double x[], double y[])
 	for (int i = 0; i < n; i++)
 	{
 		x[i] = i + 1.0;
-	       	y[i] = x[i]*x[i];	
-//		y[i] = (double) 10*rand()/RAND_MAX; 
+		y[i] = (double) 10*rand()/RAND_MAX; 
 
 		fprintf (points, 
 				"%10g %10g \n", 
@@ -53,7 +52,7 @@ void create_and_print_spline (int n, double x[], double y[])
 
 int main() 
 {
-	int n = 5; 
+	int n = 10; 
 
 	double x[n]; 
 	double y[n]; 

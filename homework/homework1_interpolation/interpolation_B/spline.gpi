@@ -8,5 +8,5 @@ set key out
 
 plot "points.txt" using 1:2 with points lt 7 lc rgb "red" title "Random points",\
 "spline_data.txt" using 1:2 with lines lc rgb "black" title "Quadratic spline",\
-"spline_data.txt" using 1:3 with lines lc rgb "black" title "Integral",\
-"spline_data.txt" using 1:4 with lines lt 3 lc rgb "black" title "Derivative"
+"spline_data.txt" using 1:3 with lines dt '.' lc rgb "black" title "Integral",\
+"spline_data.txt" using 1:4 with lines dt '-' lc rgb "black" title "Derivative"

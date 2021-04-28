@@ -35,7 +35,7 @@ void create_and_print_spline (int n, double x[], double y[])
 				"%10g %10g %10g %10g \n", 
 				z, 
 				quadratic_spline_eval (spline, z), 
-				quadratic_spline_integ (spline, z),
+				quadratic_spline_integ (spline, spline->x[0], z),
 				quadratic_spline_deriv (spline, z));
 	}
 

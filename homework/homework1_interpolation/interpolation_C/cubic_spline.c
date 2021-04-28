@@ -85,7 +85,7 @@ int check_and_search (cubic_spline * spline, double z)
 			j = m;
 		}
 	}
-	return 0;
+	return i;
 }
 
 double cubic_spline_eval (cubic_spline * spline, double z)
@@ -99,19 +99,20 @@ double cubic_spline_eval (cubic_spline * spline, double z)
 double cubic_spline_integ (cubic_spline * spline, double z)
 {
 	int i = check_and_search (spline, z);
-	double h = z - spline->x[i]; 
 
-	double anti_derivative (cubic_spline * spline, int i, double z)
+	double anti_derivative (int i, double z)
 	{
-        	return h*(spline->y[i] + h*(spline->b[i]/2 + h*(spline->c[i]/3 + h*spline->d[i]/4)));
+		double h = z - spline->x[i]; 
+        	
+		return h*(spline->y[i] + h*(spline->b[i]/2 + h*(spline->c[i]/3 + h*spline->d[i]/4)));
 	}
 
-	double integral = anti_derivative (spline, i, z); 
+	double integral = anti_derivative (i, z) - anti_derivative (i, spline->x[i]); 
 
 	while (i > 0)
 	{
 		i--;
-		integral += anti_derivative (spline, i, spline->x[i + 1]);
+		integral += anti_derivative (i, spline->x[i + 1]) - anti_derivative (i, spline->x[i]);
 	}
 
 	return integral; 
