@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "gram_schmidt.h"
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_vector.h>
 #include <gsl/gsl_linalg.h>
+#include "gram_schmidt.h"
 
 void create_matrix (int n, gsl_matrix * A)
 {
