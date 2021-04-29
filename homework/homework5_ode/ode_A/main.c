@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "runge_kutta.h"
+#include "ode_rk12.h"
 
 void sir_model (
 		double time_between_contacts, 
@@ -47,7 +47,7 @@ int main ()
 				sir_model (time_between_contacts[i], t, y, dydt);
 			}
 
-			ode_driver (3, sir_model_given_time_between_contacts, (double) a, (double) t, y, h, acc, eps);
+			driver_rk12 (3, sir_model_given_time_between_contacts, (double) a, (double) t, y, h, acc, eps);
 			
 			fprintf (susceptible, "%g ", y[0]);
 			fprintf (infectious, "%g ", y[1]); 

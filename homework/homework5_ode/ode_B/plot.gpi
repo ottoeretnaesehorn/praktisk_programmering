@@ -1,5 +1,7 @@
 set term svg background rgb "white"
 set out "plot.svg"
 
-set key out
+set title "u'' = -u"
+
+plot "data.txt" using 1:2 with lines lc rgb "black" title "u(0) = 1, u'(0) = 0"
 
