@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <math.h>
-#include "least_squares.h"
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
+#include "least_squares.h"
 
 int main ()
 {
@@ -79,20 +79,20 @@ int main ()
 		return fit_value;
 	}
 
-	FILE * data = fopen ("data.txt", "w");
+	FILE * points = fopen ("points.txt", "w");
 	for (int i = 0; i < n; i++)
 	{
-		fprintf (data, "%g %g %g \n", time[i], activity[i], 0.05*activity[i]); 
+		fprintf (points, "%g %g %g \n", time[i], activity[i], 0.05*activity[i]); 
 	}
-	fclose (data); 
+	fclose (points); 
 
-	FILE * plot = fopen ("plot.txt", "w");
+	FILE * data = fopen ("data.txt", "w");
 	for (double x = time[0]; x <= time[n - 1]; x += (time[n - 1] - time[0])/64)
 	{
-		fprintf (plot, "%g %g %g %g \n", x, exp(fit (x)), 
+		fprintf (data, "%g %g %g %g \n", x, exp(fit (x)), 
 				exp(fit_plus_uncertainty (x)), exp(fit_minus_uncertainty (x)));
 	}
-	fclose (plot); 
+	fclose (data); 
 
 	double c_1 = gsl_vector_get (coefficients, 1);
 	double half_life = -log(2.0)/c_1;

@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include <math.h>
-#include "least_squares.h"
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
+#include <math.h>
+#include "least_squares.h"
 
 int main ()
 {

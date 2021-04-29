@@ -1,0 +1,2 @@
+Half-life = 4.04 +/- 0.12 days 	 (From fit) 
+Half-life = 3.6319(23) days 	 (Tabelvalue) 
