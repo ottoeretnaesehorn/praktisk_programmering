@@ -6,11 +6,12 @@ OBJFILES = main.o jacobi.o printing.o
 
 
 default : out.txt
+	@cat $<
 
-out.txt : test 
+out.txt : main 
 	@./$< > $@
 
-test : $(OBJFILES)
+main : $(OBJFILES)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 main.o : main.c
@@ -27,4 +28,4 @@ printing.o : printing.c
 .PHONEY	: clean 
 
 clean : 
-	@$(RM) *.txt test *.o  
+	@$(RM) *.txt main *.o  

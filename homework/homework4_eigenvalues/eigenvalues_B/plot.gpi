@@ -1,5 +1,5 @@
 set term svg background rgb "white"
-set out "eigenvectors.svg"
+set out "plot.svg"
 
 set title "Eigenvectors"
 set key out

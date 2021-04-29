@@ -5,15 +5,16 @@ OBJFILES = main.o jacobi.o printing.o
 
 
 
-default : out.txt eigenvectors.svg
+default : out.txt plot.svg
+	@cat $<
 
-eigenvectors.svg : eigenvectors.gpi data.txt
+plot.svg : plot.gpi data.txt
 	@gnuplot $<
 
-out.txt data.txt : particle_in_a_box  
+out.txt data.txt : main  
 	@./$< 
 
-particle_in_a_box : $(OBJFILES)
+main : $(OBJFILES)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 main.o : main.c
@@ -30,4 +31,4 @@ printing.o : printing.c
 .PHONEY	: clean 
 
 clean : 
-	@$(RM) *.txt *.svg *.o particle_in_a_box 
+	@$(RM) *.txt *.svg *.o main 
