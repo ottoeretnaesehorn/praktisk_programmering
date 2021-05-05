@@ -1,0 +1,12 @@
+set term svg background rgb "white"
+set out "plot.svg"
+
+set xlabel "Calls" 
+set ylabel "Difference"
+
+set logscale x
+set logscale y
+
+plot "data_RIA.txt" using 1:2 with points lc rgb "red" title "Recursive adaptive integration",\
+"data_CC.txt" using 1:2 with points lc rgb "blue" title "Clenshaw-Curtis",\
+"data_gsl.txt" using 1:2 with points lc rgb "black" title "GSL QAG"

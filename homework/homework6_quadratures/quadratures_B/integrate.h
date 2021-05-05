@@ -15,3 +15,11 @@ double integrate(
 		double acc, 
 		double eps
 		);
+
+double clenshaw_curtis(
+		double f (double t), 
+		double min, 
+		double max, 
+		double acc, 
+		double eps
+		); 

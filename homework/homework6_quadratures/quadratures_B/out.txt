@@ -1,0 +1,4 @@
+Integral 1/sqrt(t) from 0 to 1: 
+1.99996 	 8572 calls 	 (Recursive adaptive integrator) 
+1.99999 	 16 calls 	 (Clenshaw-Curtis) 
+2 	 	 	 	 (analytically) 
