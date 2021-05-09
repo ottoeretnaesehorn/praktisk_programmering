@@ -1,0 +1,8 @@
+set term svg background rgb "white"
+set out "plot.svg"
+
+set xlabel "Energy [GeV]"
+set ylabel "Cross-section"
+
+plot "points.txt" with errorbars lc rgb "red" title "CERN data",\
+"data.txt" with lines lc rgb "black" title "Breit-Wigner fit"

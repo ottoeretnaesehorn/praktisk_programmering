@@ -1,0 +1,6 @@
+quasi_newton : |dx| < delta*|x| 
+quasi_newton : steps = 31, good steps = 30, bad steps = 0
+quasi_newton : function value at min 0.989901 
+quasi_newton : |gradient| < accuracy 
+quasi_newton : steps = 10, good steps = 9, bad steps = 0
+quasi_newton : function value at min 169.637 

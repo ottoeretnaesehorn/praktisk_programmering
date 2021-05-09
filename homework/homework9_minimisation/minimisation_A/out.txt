@@ -1,0 +1,5 @@
+Min of Rosenbrocks function found at (0.999996, 0.999991) 
+Algorithm used 31 steps 
+ 
+Min of Himmelblau function found at (3.000000, 2.000000) 
+Algorithm used 10 steps 
