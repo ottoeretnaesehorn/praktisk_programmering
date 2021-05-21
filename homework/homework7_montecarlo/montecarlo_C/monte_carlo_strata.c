@@ -41,24 +41,26 @@ double monte_carlo_strata (
 	{
 		for (int j = 0; j < dim; j++)
 		{
-			x[j] = a[j]*RANDOM*(b[j] - a[j]); 
+			x[j] = a[j] + RANDOM*(b[j] - a[j]); 
 		}
+
+		double fx = f(x); 
 
 		for (int j = 0; j < dim; j++)
 		{
 			if (x[j] > (a[j] + b[j])/2)
 			{
 				n_right[j]++; 
-				mean_right[j] += f(x);
+				mean_right[j] += fx;
 			}	
 			else 
 			{
 				n_left[j]++;
-				mean_left[j] += f(x); 
+				mean_left[j] += fx; 
 			}
-
-			mean += f(x);
 		}
+
+		mean += fx;
 	}
 	
 	mean /= N; 
@@ -83,7 +85,7 @@ double monte_carlo_strata (
 		}
 	}	
 
-	double integral = (N*mean + mean_reuse*mean_reuse)/(N + n_reuse)*V;
+	double integral = (N*mean + mean_reuse*n_reuse)/(N + n_reuse)*V;
 	double error = fabs (mean_reuse - mean)*V;
 
 	double tolerance = acc + fabs (integral)*eps; 

@@ -1,0 +1,7 @@
+Area of circle:
+result = 3.16789 +/- 0.416789 
+result = 3.14159 
+
+Volume of sphere:
+result = 4.23288 +/- 0.523288 
+result = 4.18879 

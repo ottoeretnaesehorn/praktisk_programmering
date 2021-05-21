@@ -23,8 +23,8 @@ double S_n (int n, double * x)
 
 int main()
 {
-	double acc = 1e-3;
-	double eps = 0.0; 
+	double acc = 0.1;
+	double eps = 0.1; 
 	
 	double f2 (double * x) 
 	{
