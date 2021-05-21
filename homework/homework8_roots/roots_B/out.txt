@@ -1,0 +1,3 @@
+Rosenbrocks function: 
+Minimum calculated at (1.000000, 1.000000) 
+Rutine used 143 steps 
