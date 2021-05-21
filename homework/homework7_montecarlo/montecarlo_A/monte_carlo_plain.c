@@ -1,11 +1,11 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <complex.h>
 #include <math.h>
+#include "monte_carlo_plain.h"
 
 #define RANDOM ((double) rand()/RAND_MAX)
 
-complex plain_monte_carlo (
+complex monte_carlo_plain (
 		int dim, 
 		double f (double * x), 
 		double * a, 

@@ -1,0 +1,3 @@
+Integral over (1 - cos(x)cos(y)cos(z))^-1:
+result = 1.39298 +/- 0.00605007 	 (Monte Carlo) 
+result = 1.3932 	 	 	 (Analytic) 
