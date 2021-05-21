@@ -1,0 +1,5 @@
+set term svg background rgb "white"
+set out "plot.svg"
+
+plot "points.txt" with points lc rgb "red" title "Function points",\
+"data.txt" with lines lc rgb "black" title "Neural network fit"

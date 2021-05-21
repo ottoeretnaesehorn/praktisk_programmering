@@ -1,0 +1,3 @@
+quasi_newton : |gradient| < accuracy 
+quasi_newton : steps = 37, good steps = 36, bad steps = 0
+quasi_newton : function value at min 0.495435 
