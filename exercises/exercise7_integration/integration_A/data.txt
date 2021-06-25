@@ -1,0 +1,2 @@
+The integral from 0 to 1 of log(x)/sqrt(x) evaluates to -4 with error 1.35447e-13 
+The analytical value of the integral is -4
