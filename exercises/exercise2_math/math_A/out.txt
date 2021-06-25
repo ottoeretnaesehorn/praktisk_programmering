@@ -1,0 +1,10 @@
+Checking functions from math.h:
+gamma(5) = 24
+j1(0.5) = 0.242268
+
+Checking functions from complex.h:
+sqrt(-2) = 0 + I*1.41421
+exp(I*PI) = -1 + I*1.22465e-16
+exp(I) = 0.540302 + I*0.841471
+I^e = -0.42822 + I*-0.903675
+I^I = 0.20788 + I*0
