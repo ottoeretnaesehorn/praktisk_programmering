@@ -1,0 +1,25 @@
+Investigating maximum integer:
+int_max = 2147483647 (Using while loop)
+int_max = 2147483647 (Using for loop)
+int_max = 2147483647 (Using do/while loop)
+int_max = 2147483647 (From limits.h)
+
+
+Investigating minimum integer:
+int_min = -2147483648 (Using while loop)
+int_min = -2147483648 (Using for loop)
+int_min = -2147483648 (Using do/while loop)
+int_min = -2147483648 (From limits.h)
+
+
+Investigating the machine epsilon:
+epsilon_float = 1.19209e-07 (Calculated)
+epsilon_float = 1.19209e-07 (From float.h)
+epsilon_double = 2.22045e-16 (Calculated)
+epsilon_double = 2.22045e-16 (From float.h)
+epsilon_long_double = 1.0842e-19 (Calculated)
+epsilon_long_double = 1.0842e-19 (From float.h)
+
+
+The epsilon values have only been calculated using one type of loop, since they are equivalent, and it takes quite som time to run them
+
