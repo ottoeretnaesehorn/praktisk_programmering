@@ -1,0 +1,13 @@
+set term svg background rgb "white"
+set out "plot.svg"
+
+set title "2D interpolation"
+
+set pm3d hidden3d 100 
+set key out
+
+set xlabel "x"
+set ylabel "y"
+
+splot [][][] "out.txt" using 1:2:3 with pm3d notitle,\
+"data.txt" using 1:2:3 with labels point pt 7 title "Random data"

@@ -1,0 +1,18 @@
+~
+Exam project of Alberte Mørk
+~
+
+My student number is 201606847 so my number is 47%22 = 3, corresponding to the problem "Bi-linear interpolation on a rectilinear grid in two dimensions". 
+
+The linear interpolation is done using the assumption
+F(x, y) = a + b*x + c*y + d*x*y. 
+
+This allows us to make a linear system
+(1  x1  y1  x1*y1) (a)   (F(x1, y1))
+(1  x1  y2  x1*y2) (b) = (F(x1, y2))
+(1  x2  y1  x2*y1) (c)   (F(x2, y1))
+(1  x2  y2  x2*y2) (d)   (F(x2, y2)),
+
+which we can solve. This is also described on Wikipedia, https://en.wikipedia.org/wiki/Bilinear_interpolation.
+
+The strength of this type of interpolation is that the function in question need not be continuous, and therefore it is tested on random data. 
